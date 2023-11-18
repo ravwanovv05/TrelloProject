@@ -15,3 +15,5 @@ class NoteSerializer(ModelSerializer):
         model = Note
         fields = ('text', 'card')
 
+
+
