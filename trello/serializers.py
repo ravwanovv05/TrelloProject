@@ -13,7 +13,18 @@ class NoteSerializer(ModelSerializer):
 
     class Meta:
         model = Note
+        fields = '__all__'
+
+
+class UpdateDestroyCardSerializer(ModelSerializer):
+
+    class Meta:
+        model = Card
+        fields = ('name',)
+
+
+class UpdateDestroyNoteSerializer(ModelSerializer):
+
+    class Meta:
+        model = Note
         fields = ('text', 'card')
-
-
-
