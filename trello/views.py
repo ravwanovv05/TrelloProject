@@ -26,7 +26,7 @@ class AddNoteGenericAPIView(generics.GenericAPIView):
     def post(self, request):
         serializer_note = self.get_serializer(data=request.data)
         serializer_note.is_valid(raise_exception=True)
-        serializer_note.savae()
+        serializer_note.save()
         return Response(serializer_note.data)
 
 
