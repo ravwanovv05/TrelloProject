@@ -10,8 +10,8 @@ class Board(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
 
     class Meta:
-        verbose_name = ('Board',)
-        verbose_name_plural = ('Boards',)
+        verbose_name = 'Board'
+        verbose_name_plural = 'Boards'
 
 
 class Card(models.Model):
@@ -21,8 +21,8 @@ class Card(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
 
     class Meta:
-        verbose_name = ('Card',)
-        verbose_name_plural = ('Cards',)
+        verbose_name = 'Card'
+        verbose_name_plural = 'Cards'
 
 
 class Note(models.Model):
@@ -32,6 +32,6 @@ class Note(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
 
     class Meta:
-        verbose_name = ('Note',)
-        verbose_name_plural = ('Notes',)
+        verbose_name = 'Note'
+        verbose_name_plural = 'Notes'
 
