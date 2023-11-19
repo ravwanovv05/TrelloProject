@@ -4,9 +4,20 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class Card(models.Model):
-    name = models.CharField('Name', max_length=255)
+class Board(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Board')
     user = models.ForeignKey(User, models.CASCADE, verbose_name='User')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
+
+    class Meta:
+        verbose_name = ('Board',)
+        verbose_name_plural = ('Boards',)
+
+
+class Card(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Name')
+    user = models.ForeignKey(User, models.CASCADE, verbose_name='User')
+    board = models.ForeignKey(Board, models.CASCADE, verbose_name='Board')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
 
     class Meta:

@@ -1,13 +1,27 @@
 from django.db.models import Q
-from rest_framework import generics
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 from trello.models import Card, Note
-from trello.serializers import CardSerializer, NoteSerializer, UpdateDestroyNoteSerializer, UpdateDestroyCardSerializer
+from trello.serializers import (
+    CardSerializer, NoteSerializer,
+    UpdateDestroyNoteSerializer, UpdateDestroyCardSerializer,
+    BoardSerializer
+)
 
 
-class AddCardGenericAPIView(generics.GenericAPIView):
+class AddBoardGenericAPIView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BoardSerializer
+
+    def post(self, request):
+        serializer_board = self.get_serializer(data=request.data)
+        serializer_board.is_valid(raise_exception=True)
+        serializer_board.save()
+        return Response(serializer_board.data)
+
+
+class AddCardGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CardSerializer
 
@@ -19,7 +33,7 @@ class AddCardGenericAPIView(generics.GenericAPIView):
         return Response(serializer_card.data)
 
 
-class AddNoteGenericAPIView(generics.GenericAPIView):
+class AddNoteGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = NoteSerializer
 
@@ -30,7 +44,7 @@ class AddNoteGenericAPIView(generics.GenericAPIView):
         return Response(serializer_note.data)
 
 
-class UpdateDestroyCardGenericAPIView(generics.GenericAPIView):
+class UpdateDestroyCardGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UpdateDestroyCardSerializer
 
@@ -53,7 +67,7 @@ class UpdateDestroyCardGenericAPIView(generics.GenericAPIView):
         return Response(status=204)
 
 
-class UpdateDestroyNoteGenericAPIView(generics.GenericAPIView):
+class UpdateDestroyNoteGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UpdateDestroyNoteSerializer
 

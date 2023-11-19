@@ -1,5 +1,12 @@
 from rest_framework.serializers import ModelSerializer
-from trello.models import Card, Note
+from trello.models import Card, Note, Board
+
+
+class BoardSerializer(ModelSerializer):
+
+    class Meta:
+        model = Board
+        fields = '__all__'
 
 
 class CardSerializer(ModelSerializer):
