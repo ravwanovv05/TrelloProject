@@ -2,11 +2,11 @@ from django.db.models import Q
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from trello.models import Card, Note
+from trello.models import Card, Note, Board
 from trello.serializers import (
     CardSerializer, NoteSerializer,
     UpdateDestroyNoteSerializer, UpdateDestroyCardSerializer,
-    BoardSerializer
+    BoardSerializer, UpdateDestroyBoardSerializer
 )
 
 
@@ -42,6 +42,29 @@ class AddNoteGenericAPIView(GenericAPIView):
         serializer_note.is_valid(raise_exception=True)
         serializer_note.save()
         return Response(serializer_note.data)
+
+
+class UpdateDestroyBoardGenericAPIView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UpdateDestroyBoardSerializer
+
+    def patch(self, request, pk):
+        user = request.user.id
+        board = Board.objects.get(Q(user=user) & Q(pk=pk))
+        serializer_board = self.get_serializer(board, request.data, partial=True)
+        serializer_board.is_valid(raise_exception=True)
+        serializer_board.save()
+        return Response(serializer_board.data)
+
+    def delete(self, request, pk):
+        user = request.user.id
+        board = Board.objects.get(Q(user=user) & Q(pk=pk))
+
+        try:
+            board.delet()
+        except Exception as e:
+            return Response({'success': False, 'message': str(e)})
+        return Response(status=204)
 
 
 class UpdateDestroyCardGenericAPIView(GenericAPIView):

@@ -23,6 +23,13 @@ class NoteSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class UpdateDestroyBoardSerializer(ModelSerializer):
+
+    class Meta:
+        model = Board
+        fields = ('name',)
+
+
 class UpdateDestroyCardSerializer(ModelSerializer):
 
     class Meta:
