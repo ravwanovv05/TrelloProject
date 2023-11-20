@@ -14,11 +14,25 @@ class AddBoardGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = BoardSerializer
 
+    def get(self, request):
+        user = request.user.id
+        board = Board.objects.filter(user=user)
+        serializer_board = self.get_serializer(board, many=True)
+        return Response(serializer_board.data)
+
     def post(self, request):
         serializer_board = self.get_serializer(data=request.data)
         serializer_board.is_valid(raise_exception=True)
         serializer_board.save()
         return Response(serializer_board.data)
+
+
+class BoardGenericAPIView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BoardSerializer
+
+    def get(self, request):
+        pass
 
 
 class AddCardGenericAPIView(GenericAPIView):
