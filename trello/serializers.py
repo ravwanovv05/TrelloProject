@@ -13,7 +13,7 @@ class CardSerializer(ModelSerializer):
 
     class Meta:
         model = Card
-        fields = ('name', 'user')
+        fields = '__all__'
 
 
 class NoteSerializer(ModelSerializer):

@@ -82,20 +82,24 @@ class UpdateDestroyBoardGenericAPIView(GenericAPIView):
 
 
 class UpdateDestroyCardGenericAPIView(GenericAPIView):
+    queryset = Card.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = UpdateDestroyCardSerializer
 
+    def get_queryset(self):
+        user = self.request.user.id
+        return Card.objects.filter(Q(user=user))
+
     def patch(self, request, pk):
-        user = request.user.id
-        card = Card.objects.get(Q(user=user) & Q(pk=pk))
+        card = self.get_object()
+        print(request)
         serializer_card = self.get_serializer(card, request.data, partial=True)
         serializer_card.is_valid(raise_exception=True)
         serializer_card.save()
         return Response(serializer_card.data)
 
     def delete(self, request, pk):
-        user = request.user.id
-        card = Card.objects.get(Q(user=user) & Q(pk=pk))
+        card = self.get_object()
 
         try:
             card.delete()
