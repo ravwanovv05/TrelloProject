@@ -10,7 +10,7 @@ from trello.serializers import (
 )
 
 
-class AddBoardGenericAPIView(GenericAPIView):
+class BoardGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = BoardSerializer
 
@@ -25,14 +25,6 @@ class AddBoardGenericAPIView(GenericAPIView):
         serializer_board.is_valid(raise_exception=True)
         serializer_board.save()
         return Response(serializer_board.data)
-
-
-class BoardGenericAPIView(GenericAPIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = BoardSerializer
-
-    def get(self, request):
-        pass
 
 
 class AddCardGenericAPIView(GenericAPIView):

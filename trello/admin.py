@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Board, Card, Note
+from .models import Board, Card, Note, Template
 
 
 @admin.register(Board)
@@ -16,4 +16,8 @@ class AdminCard(admin.ModelAdmin):
 class AdminNote(admin.ModelAdmin):
     list_display = ('id', 'text', 'user', 'card', 'created_at')
 
+
+@admin.register(Template)
+class AdminTemplate(admin.ModelAdmin):
+    list_display = ('id', 'name', 'image', 'description', 'created_at')
 

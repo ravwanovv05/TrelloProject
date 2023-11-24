@@ -1,10 +1,10 @@
 from django.urls import path
 
 from trello.views import AddCardGenericAPIView, UpdateDestroyNoteGenericAPIView, UpdateDestroyCardGenericAPIView, \
-    AddNoteGenericAPIView, AddBoardGenericAPIView, UpdateDestroyBoardGenericAPIView
+    AddNoteGenericAPIView, BoardGenericAPIView, UpdateDestroyBoardGenericAPIView
 
 urlpatterns = [
-    path('add-board', AddBoardGenericAPIView.as_view(), name='add_board'),
+    path('board', BoardGenericAPIView.as_view(), name='add_board'),
     path('add-card', AddCardGenericAPIView.as_view(), name='add_card'),
     path('add-note', AddNoteGenericAPIView.as_view(), name='add_note'),
     path('updatedestroyboard/<int:pk>', UpdateDestroyBoardGenericAPIView.as_view(), name='update_destroy_board'),
