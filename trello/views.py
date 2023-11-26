@@ -27,9 +27,15 @@ class BoardGenericAPIView(GenericAPIView):
         return Response(serializer_board.data)
 
 
-class AddCardGenericAPIView(GenericAPIView):
+class CardGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CardSerializer
+
+    def get(self, request):
+        user = request.user.id
+        card = Card.objects.filter(Q(user=user))
+        serializer_card = self.get_serializer(card, many=True)
+        return Response(serializer_card.data)
 
     def post(self, request):
         data = request.data
@@ -39,9 +45,15 @@ class AddCardGenericAPIView(GenericAPIView):
         return Response(serializer_card.data)
 
 
-class AddNoteGenericAPIView(GenericAPIView):
+class NoteGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = NoteSerializer
+
+    def get(self, request):
+        user = request.user.id
+        note = Note.objects.filter(Q(user=user))
+        serializer_note = self.get_serializer(note, many=True)
+        return Response(serializer_note.data)
 
     def post(self, request):
         serializer_note = self.get_serializer(data=request.data)
@@ -54,9 +66,12 @@ class UpdateDestroyBoardGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UpdateDestroyBoardSerializer
 
+    def get_queryset(self):
+        user = self.request.user.id
+        return Board.objects.filter(Q(user=user))
+
     def patch(self, request, pk):
-        user = request.user.id
-        board = Board.objects.get(Q(user=user) & Q(pk=pk))
+        board = self.get_object()
         serializer_board = self.get_serializer(board, request.data, partial=True)
         serializer_board.is_valid(raise_exception=True)
         serializer_board.save()
@@ -84,7 +99,6 @@ class UpdateDestroyCardGenericAPIView(GenericAPIView):
 
     def patch(self, request, pk):
         card = self.get_object()
-        print(request)
         serializer_card = self.get_serializer(card, request.data, partial=True)
         serializer_card.is_valid(raise_exception=True)
         serializer_card.save()
@@ -104,9 +118,12 @@ class UpdateDestroyNoteGenericAPIView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UpdateDestroyNoteSerializer
 
+    def get_queryset(self):
+        user = self.request.user.id
+        return Note.objects.filter(Q(user=user))
+
     def patch(self, request, pk):
-        user = request.user.id
-        note = Note.objects.get(Q(user=user) & Q(pk=pk))
+        note = self.get_object()
         serializer_note = self.get_serializer(note, request.data, partial=True)
         serializer_note.is_valid(raise_exception=True)
         serializer_note.save()

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Board, Card, Note, Template
+from trello.models import Board, Card, Note, Template
 
 
 @admin.register(Board)
